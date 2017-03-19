@@ -25,7 +25,8 @@ Roamer.init(function(err) {
     '/url2/': {
       foo: 'bar',
       syn: "ack"
-    }
+    },
+    'POST /url2/': 'this is POST response.'
   });
 });
 ```
