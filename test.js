@@ -11,10 +11,11 @@ Roamer.init(function(err) {
     '/': 'this is hope page',
 
     '/url1/': 'this is url 1',
+    'POST /url1/': 'this is POST response',
 
     '/info/': {
       firstName: 'Ashish',
       lastName: 'Dubey'
-    }
+    },
   });
 });

@@ -9,8 +9,13 @@ self.getPath = function(url) {
   return urlParts[3];
 }
 
-self.processRequest = function(path) {
+self.processRequest = function(path, method) {
   var path = self.getPath(path);
+
+  if (method !== 'GET') {
+    path = method + ' ' + path;
+  }
+
   var binding = self._bindings[path];
 
   if (!binding) {
@@ -30,7 +35,17 @@ self.addEventListener('message', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  console.log('Got a request');
   var request = event.request;
-  event.respondWith(new Response(self.processRequest(request.url)));
+  console.log('Got a request', request);
+
+  var localResponse = self.processRequest(request.url, request.method);
+  if (localResponse) {
+    event.respondWith(new Response(localResponse));
+  } else {
+    event.respondWith(fetch(event.request.clone()));
+  }
+});
+
+self.addEventListener('activate', function(event) {
+  self.clients.claim();
 });
